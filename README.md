@@ -15,7 +15,7 @@ to be prompted to enter your numbers separated by spaces, and then your target.
 
 ```
 $ gcc -Wall countdownNumbers.c -o countdownNumbers
-$ ./countdown
+$ ./countdownNumbers
 Numbers: 6 10 1 25 50 75
 Numbers chosen are 6 10 1 25 50 75
 Target: 222
