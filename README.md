@@ -7,14 +7,14 @@ After cloning repository, run
 
 to build the program. To then run the program, use
 
-```$ ./countdown```
+```$ ./countdownNumbers```
 
 to be prompted to enter your numbers separated by spaces, and then your target.
 
 ## Example
 
 ```
-$ gcc -Wall countdownNumbers.c -o countdown
+$ gcc -Wall countdownNumbers.c -o countdownNumbers
 $ ./countdown
 Numbers: 6 10 1 25 50 75
 Numbers chosen are 6 10 1 25 50 75
