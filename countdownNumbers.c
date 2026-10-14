@@ -47,7 +47,7 @@ int reachTarget(int (*op)[], int (*currNums)[], int n[][2], int target) {
             *n2 = -i;
         }
         if (res[i] == target) {
-            return i;
+            return i + 1;
         }
     }
     return -1;
@@ -111,8 +111,12 @@ void printResult(int (*op)[], int (*currNums)[], int n[][2], int target) {
  * Asks for input of six numbers and a target number,
  * then tries to find a way using elementary operations
  * to combine these numbers into the target number.
+ * 
+ * Set findMostOptimalSolution based on if you want the program to find the solution with the fewest steps. 
  */
 int main(int argc, char *argv[]) {
+    int findMostOptimalSolution = 1;
+
     int nums[6];
     printf("Numbers: ");
     scanf("%d %d %d %d %d %d", &nums[0], &nums[1], &nums[2], &nums[3], &nums[4], &nums[5]);
@@ -127,6 +131,9 @@ int main(int argc, char *argv[]) {
     int n[5][2]; // Array of numbers to use in each operation
     int currNums[6]; // Modifiable array of numbers to use
     int counts[6] = {0}; // Counts how many times each number has been chosen in the operations
+    int solSteps = 7; // Steps of optimal solution
+    int solOp[5]; // Operations of optimal solution
+    int solN[5][2]; // Numbers of optimal solution
     for (op[0] = 0; op[0] < 4; op[0]++) {
         for (op[1] = 0; op[1] < 4; op[1]++) {
             for (op[2] = 0; op[2] < 4; op[2]++) {
@@ -182,8 +189,22 @@ int main(int argc, char *argv[]) {
                                                                 for (int i = 0; i < 6; i++) { // Reset current numbers
                                                                     currNums[i] = nums[i];
                                                                 }
-                                                                if (reachTarget(&op, &currNums, n, target) != -1) {
-                                                                    printf("Solution found:\n");
+                                                                if (findMostOptimalSolution) {
+                                                                    int steps = reachTarget(&op, &currNums, n, target);
+                                                                    if (steps != -1 && steps < solSteps) { // More optimal solution found
+                                                                        for (int i = 0; i < steps; i++) { // Copy solution
+                                                                            solOp[i] = op[i];
+                                                                            solN[i][0] = n[i][0];
+                                                                            solN[i][1] = n[i][1];
+                                                                        }
+                                                                        if (solSteps == 7) {
+                                                                            printf("Solution found!\n");
+                                                                        }
+                                                                        solSteps = steps;
+                                                                    }
+                                                                }
+                                                                else {
+                                                                    printf("Solution found!\n");
                                                                     printResult(&op, &nums, n, target);
                                                                     return 0;
                                                                 }
@@ -213,6 +234,11 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    if (solSteps != 7) {
+        printResult(&solOp, &nums, solN, target);
+        return 0;
+    }
+    
     printf("Solution not found.\n");
     return 0;
 }
